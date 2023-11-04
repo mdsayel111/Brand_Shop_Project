@@ -3,19 +3,28 @@ import { AuthContext } from "../Contexts/AuthContext";
 import Cart from "../Components/Cart";
 import { useQuery } from "react-query";
 import { data } from "autoprefixer";
+import { useNavigate } from "react-router-dom";
+import { SignUPOrSignInContext } from "../Contexts/SignUPOrSignInContext";
 
 const MyCart = () => {
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate()
+  const { setSignInOrSignUp } = useContext(
+    SignUPOrSignInContext
+  );
 
   const query = useQuery({
     queryFn:  async () => {
-      console.log("inside fetch");
       const res = await fetch(
         `https://brand-shop-server-lime.vercel.app/my_cart/${user.uid}`
       ,{
         method: "GET",
         credentials: "include"
       });
+      if(res.status === 400){
+        setSignInOrSignUp("SignIn")
+        return navigate("/signUp_or_signIn")
+      }
       const data = await res.json() 
       return data;
     },

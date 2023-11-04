@@ -3,6 +3,7 @@ import { useLoaderData, useParams } from "react-router-dom";
 import Car from "../Components/Car";
 import Carousel from "../Components/Carousel";
 import { useQuery } from "react-query";
+import NoCars from "../Components/NoCars";
 
 const SpecificBrandCars = () => {
   const { brand } = useParams();
@@ -20,39 +21,15 @@ const SpecificBrandCars = () => {
       return data;
     },
     queryKey: ["specificBrandCars"],
-    refetchOnWindowFocus: false
+    refetchOnWindowFocus: false,
   });
 
   const { data } = query;
 
-  console.log(data);
-
   return (
     <div>
       {data?.length === 0 ? (
-        <div>
-          <div className="bg-gradient-to-r bg-[var(--theme)]">
-            <div className="w-9/12 m-auto py-10 min-h-screen flex items-center justify-center">
-              <div className="bg-[var(--theme)] shadow overflow-hidden sm:rounded-lg pb-8">
-                <div className="border-t border-gray-200 text-center pt-8">
-                  <h1 className="text-9xl font-bold text-primary">opps!</h1>
-                  <h1 className="text-6xl font-medium py-8">
-                    No Car Stock Of This Brand
-                  </h1>
-                  <p className="text-2xl pb-8 px-12 font-medium">
-                    please Choose Another Brand
-                  </p>
-                  <button className="bg-primary btn text-white font-semibold px-6 py-3 rounded-md mr-6">
-                    HOME
-                  </button>
-                  <button className="bg-primary btn text-white font-semibold px-6 py-3 rounded-md">
-                    Contact Us
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <NoCars />
       ) : (
         <>
           <Carousel />

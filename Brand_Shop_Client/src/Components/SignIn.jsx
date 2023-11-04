@@ -91,7 +91,6 @@ const SignIn = ({ setSignInOrSignUp }) => {
         // .then(function (response) {
         //   console.log(response.data);
         // })
-
         fetch("https://brand-shop-server-lime.vercel.app/token", {
           method: "POST",
           headers: {
@@ -102,7 +101,7 @@ const SignIn = ({ setSignInOrSignUp }) => {
         })
           .then((res) => res.json())
           .then((data) => {
-            console.log(data);
+            console.log("inside token fetch");
             Swal.fire({
               title: "success",
               text: "SignIn successful",

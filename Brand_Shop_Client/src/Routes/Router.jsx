@@ -9,6 +9,7 @@ import UpdateCar from "../Pages/UpdateCar";
 import SignUpOrSignIn from "../Pages/SignUpOrSignIn";
 import MyCart from "../Pages/MyCart";
 import ErrorPage from "../Pages/ErrorPage";
+import AllCars from "../Components/AllCars";
 
 const Router = createBrowserRouter([
   {
@@ -41,7 +42,8 @@ const Router = createBrowserRouter([
             <CarDetails />
           </PrivateRoute>
         ),
-        loader: ({ params }) => fetch(`https://brand-shop-server-lime.vercel.app/car/${params.id}`),
+        loader: ({ params }) =>
+          fetch(`https://brand-shop-server-lime.vercel.app/car/${params.id}`),
       },
       {
         path: "/car/update/:id",
@@ -50,7 +52,8 @@ const Router = createBrowserRouter([
             <UpdateCar />
           </PrivateRoute>
         ),
-        loader: ({ params }) => fetch(`https://brand-shop-server-lime.vercel.app/car/${params.id}`),
+        loader: ({ params }) =>
+          fetch(`https://brand-shop-server-lime.vercel.app/car/${params.id}`),
       },
       {
         path: "/signUp_or_signIn",
@@ -66,10 +69,8 @@ const Router = createBrowserRouter([
       },
       {
         path: "/cars",
-        element: (
-          <SpecificBrandCars/>
-        ),
-        loader: ()=> fetch("https://brand-shop-server-lime.vercel.app/cars")
+        element: <AllCars />,
+        loader: () => fetch("https://brand-shop-server-lime.vercel.app/cars"),
       },
     ],
   },

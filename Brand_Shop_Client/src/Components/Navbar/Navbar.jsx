@@ -26,6 +26,9 @@ const Navbar = () => {
   function handleLogOut() {
     signOut(Auth)
       .then(() => {
+        fetch("https://brand-shop-server-lime.vercel.app/logOut",{
+          credentials: "include"
+        })
         setUser(null);
         navigate("/");
       })

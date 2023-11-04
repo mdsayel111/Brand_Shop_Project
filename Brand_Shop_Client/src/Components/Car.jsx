@@ -5,8 +5,6 @@ import StarRatings from "react-star-ratings";
 const Car = ({ carData }) => {
   const { _id, imgUrl, name, brandName, type, price, rating } = carData;
 
-  
-  console.log(rating);
 
   return (
     <div>
