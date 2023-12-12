@@ -62,6 +62,17 @@ const Navbar = () => {
               Add Product
             </NavLink>
           </li>
+          {/* <li className="block p-1 font-sans text-sm items-center font-normal leading-normal text-inherit antialiased">
+            <NavLink
+              to="/payments"
+              className={({ isActive, isPending }) =>
+                isPending ? "pending" : isActive ? "active" : ""
+              }
+              href="#"
+            >
+              payment
+            </NavLink>
+          </li> */}
           <li className="block p-1 font-sans text-sm items-center font-normal leading-normal text-inherit antialiased">
             <NavLink
               to="/my_cart"

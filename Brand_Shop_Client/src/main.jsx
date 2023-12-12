@@ -7,9 +7,9 @@ import { RouterProvider } from "react-router-dom";
 import AuthProvitder from "./Contexts/AuthContext";
 import SignUPOrSignInProvider from "./Contexts/SignUPOrSignInContext";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { Toaster } from "react-hot-toast";
 
-
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -19,6 +19,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <SignUPOrSignInProvider>
             <RouterProvider router={Router} />
           </SignUPOrSignInProvider>
+          <Toaster />
         </ThemeProvider>
       </AuthProvitder>
     </QueryClientProvider>

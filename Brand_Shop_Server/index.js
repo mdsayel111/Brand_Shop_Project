@@ -4,6 +4,9 @@ const jwt = require("jsonwebtoken");
 const cookiePerser = require("cookie-parser");
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 require("dotenv").config();
+const stripe = require("stripe")(
+  "sk_test_51OEV5zDsoBM3ry43CA7u3xs0Mh2ij3QaWJqalFwpu43zbwEivIQukSrsMdokuGofnlmVYnUysHOAEexTIWdT3YKs00mSKAmvoS"
+);
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -92,12 +95,29 @@ async function run() {
     });
 
     app.get("/cars", async (req, res) => {
-      const { currentPage, itemPerPage } = req.query;
-      const cars = await Cars.find()
-        .skip((parseInt(currentPage) - 1)  * parseInt(itemPerPage))
+      let { currentPage, itemPerPage, minPrice, maxPrice, search } = req.query;
+      console.log(req.query);
+      let query = {};
+      if (maxPrice !== "undefined") {
+        currentPage = 1;
+        query = {
+          price: { $gte: parseInt(minPrice), $lte: parseInt(maxPrice) },
+        };
+      }
+
+      if (search) {
+        query.name = {
+          $regex: new RegExp(search),
+          $options: "i",
+        };
+      }
+
+      console.log(query);
+      const cars = await Cars.find(query)
+        .skip((parseInt(currentPage) - 1) * parseInt(itemPerPage))
         .limit(parseInt(itemPerPage))
         .toArray();
-      console.log(cars);
+      console.log(cars.length);
       res.send(cars);
     });
 
@@ -113,6 +133,23 @@ async function run() {
       res.send("cookie foo cleared");
     });
 
+    app.post("/create-payment-intent", async (req, res) => {
+      const { item } = req.body;
+      console.log(item);
+
+      const price = parseFloat(item) * 100
+
+      // Create a PaymentIntent with the order amount and currency
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: price,
+        currency: "usd",
+        payment_method_types: ["card"],
+      });
+      console.log(paymentIntent.client_secret);
+
+      res.send({clientSecret: paymentIntent.client_secret});
+    });
+
     app.post("/token", async (req, res) => {
       const data = req.body;
       var token = jwt.sign(data, "shhhhh", { expiresIn: "1h" });
@@ -120,7 +157,7 @@ async function run() {
       res.cookie("token", token, {
         httpOnly: true,
         sameSite: "none",
-        secure: true,
+        secure: false,
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
       });
       res.send({ massage: "Success" });

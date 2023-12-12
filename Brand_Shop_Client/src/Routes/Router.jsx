@@ -10,6 +10,7 @@ import SignUpOrSignIn from "../Pages/SignUpOrSignIn";
 import MyCart from "../Pages/MyCart";
 import ErrorPage from "../Pages/ErrorPage";
 import AllCars from "../Components/AllCars";
+import Payments from "../Pages/Payments";
 
 const Router = createBrowserRouter([
   {
@@ -72,6 +73,10 @@ const Router = createBrowserRouter([
         element: <AllCars />,
         loader: () => fetch("https://brand-shop-server-lime.vercel.app/cars"),
       },
+    //   {
+    //     path: "/payments",
+    //     element: <Payments />,
+    //   },
     ],
   },
 ]);

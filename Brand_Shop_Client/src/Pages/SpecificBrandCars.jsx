@@ -7,17 +7,13 @@ import NoCars from "../Components/NoCars";
 
 const SpecificBrandCars = () => {
   const { brand } = useParams();
-  // const data = useLoaderData()
-
-  console.log(brand);
-
+  
   const query = useQuery({
     queryFn: async () => {
       const res = await fetch(
         `https://brand-shop-server-lime.vercel.app/cars/${brand}`
       );
       const data = await res.json();
-      console.log(data);
       return data;
     },
     queryKey: ["specificBrandCars"],
